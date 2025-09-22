@@ -1,37 +1,60 @@
-import { CheckIcon, SearchIcon, XIcon } from 'lucide-react';
-import type { AutocompleteProps, Key, ListBoxItemProps } from 'react-aria-components';
-import { Autocomplete, Button, Input, ListBox, ListBoxItem, SearchField, useFilter } from 'react-aria-components';
+import { SearchIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import type { ListBoxItemProps } from "react-aria-components";
+import {
+  Autocomplete,
+  Button,
+  Input,
+  ListBox,
+  ListBoxItem,
+  SearchField,
+  useFilter,
+} from "react-aria-components";
+import { getMcDonalds, searchCities } from "../../services/nominatim";
+import { useMarkers } from "../../contexts/MarkersContext";
 
-interface AddressInputProps<T extends object>
-  extends Omit<AutocompleteProps<T>, 'children'> {
-  label?: string;
-  placeholder?: string;
-  items?: Iterable<T>;
-  onAction?: (id: Key) => void;
-}
+const borderClass = "border border-gray-400 rounded-md px-2";
 
-export function AddressInput<T extends object>(
-  props: AddressInputProps<T>
-) {
-  const { contains } = useFilter({ sensitivity: 'base' });
+export function AddressInput() {
+  const { contains } = useFilter({ sensitivity: "base" });
+  const [city, setCity] = useState<string | null>(null);
+  const { setMarkers } = useMarkers();
+
+  const [results, setResults] = useState([]);
+
+  async function onClickSearchButton() {
+    if (city) {
+      const mcDonalds = await getMcDonalds(city);
+      setMarkers(mcDonalds);
+    }
+  }
+
+  // useEffect(() => {
+  //   async function fetchCities() {
+  //     if (city) {
+  //       const res = await searchCities(city);
+  //       console.log(res);
+  //       setResults(res);
+  //     }
+  //   }
+  //   fetchCities();
+  // }, [city]);
+
   return (
-    <div className="my-autocomplete group z-1000" >
-      <Autocomplete filter={contains} {...props}>
-        <SearchField
-          aria-label="Search"
-          autoFocus
-          className="group flex items-center bg-white forced-colors:bg-[Field] border-2 border-gray-300 has-focus:border-sky-600 rounded-full m-1 w-full max-w-[512px]"
-        >
-          <SearchIcon
-            aria-hidden
-            className="w-4 h-4 ml-2 text-gray-600 forced-colors:text-[ButtonText]"
-          />
+    <div className="backdrop-blur-sm px-4 py-2 rounded-xl shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-80 group bg-white/53 flex flex-col">
+      <span className="pb-1">Rechercher un restaurant</span>
+      <Autocomplete filter={contains}>
+        <SearchField aria-label="Search" className="flex">
           <Input
             placeholder="Rennes, Clermont-Ferrand, ..."
-            className="px-2 py-1 flex-1 min-w-0 border-none outline outline-0 bg-white text-base text-gray-800 placeholder-gray-500 font-[inherit] [&::-webkit-search-cancel-button]:hidden"
+            onChange={(e) => setCity(e.target.value)}
+            className={`flex-1 bg-white min-w-0 text-gray-800 placeholder-gray-500 outline-none focus:outline-none focus:ring-0 ${borderClass}`}
           />
-          <Button className="text-sm text-center transition rounded-full border-0 p-1 flex items-center justify-center text-gray-600 bg-transparent hover:bg-black/[5%] pressed:bg-black/10 mr-1 w-6 group-empty:invisible">
-            <XIcon aria-hidden className="w-4 h-4" />
+          <Button
+            onClick={onClickSearchButton}
+            className="rounded-md border-0 p-1 bg-yellow-400 hover:bg-yellow-600 pressed:bg-yellow-400/30 ml-2 w-6 transition-colors"
+          >
+            <SearchIcon aria-hidden className="w-4 h-4" />
           </Button>
         </SearchField>
         <ListBox
@@ -47,7 +70,7 @@ export function AddressInput<T extends object>(
             { key: "Bordeaux", name: "Bordeaux" },
             { key: "Lille", name: "Lille" },
           ]}
-          className="hidden group-focus-within:block outline-hidden p-1 overflow-auto flex-1 scroll-pb-1 bg-white"
+          className="hidden group-focus-within:block outline-hidden overflow-auto flex-1 scroll-pb-1"
         >
           {(item) => <SelectItem key={item.key}>{item.name}</SelectItem>}
         </ListBox>
@@ -61,17 +84,14 @@ function SelectItem(props: ListBoxItemProps & { children: string }) {
     <ListBoxItem
       {...props}
       textValue={props.children}
-      className="group flex items-center gap-2 cursor-default select-none py-2 px-4 outline-hidden rounded-sm text-gray-900 focus:bg-sky-600 focus:text-white"
+      className="group flex items-center cursor-default pt-2 select-none outline-hidden text-gray-900 focus:bg-sky-600 focus:text-white"
     >
-      {({ isSelected }) => (
-        <>
-          <span className="flex-1 flex items-center gap-2 truncate font-normal group-selected:font-medium">
-            {props.children}
-          </span>
-          <span className="w-5 flex items-center text-sky-600 group-focus:text-white">
-            {isSelected && <CheckIcon size="S" />}
-          </span>
-        </>
+      {({}) => (
+        <span
+          className={`bg-white flex-1 flex items-center truncate font-normal group-selected:font-medium ${borderClass}`}
+        >
+          {props.children}
+        </span>
       )}
     </ListBoxItem>
   );

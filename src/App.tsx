@@ -1,21 +1,23 @@
-import './App.css'
-import { AddressInput } from './components/search/AddressInput'
-import { Map } from './components/map/Map'
+import "./App.css";
+import { AddressInput } from "./components/search/AddressInput";
+import { Map } from "./components/map/Map";
+import { MarkersProvider } from "./contexts/MarkersContext";
+import { SelectedRestaurant } from "./components/SelectedRestaurant";
 
 function App() {
-
   return (
-    <>
-      <div className="relative w-screen h-screen">
+    <MarkersProvider>
+      <div className="relative w-screen h-screen text-sm text-black">
         <Map />
-        <div className="absolute inset-x-0 top-0 px-4 md:px-8 pt-4 md:pt-8 z-1000">
+        <div className="absolute top-4 right-4">
           <div className="w-full max-w-[1024px]">
             <AddressInput />
           </div>
         </div>
+        <SelectedRestaurant />
       </div>
-    </>
-  )
+    </MarkersProvider>
+  );
 }
 
-export default App
+export default App;

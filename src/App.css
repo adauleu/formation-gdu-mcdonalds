@@ -1,8 +1,12 @@
 #root {
-    height: 100vh;
-    margin: 0 auto;
+  height: 100vh;
+  margin: 0 auto;
 }
 
 .markercluster-map {
-    height: 90vh;
+  height: 90vh;
+}
+
+button {
+  cursor: pointer;
 }
