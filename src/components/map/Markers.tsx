@@ -1,8 +1,8 @@
 import { Marker, Popup, useMap } from "react-leaflet";
 import {
-  useMarkers,
+  useMarkersStore,
   type NominatimResult,
-} from "../../contexts/MarkersContext";
+} from "../../stores/markersStore";
 import { useEffect, useState } from "react";
 import type { LatLngBoundsExpression, LeafletMouseEvent } from "leaflet";
 
@@ -41,7 +41,7 @@ function calculateBounds(
 }
 
 export function Markers() {
-  const { markers, setSelectedMarker } = useMarkers();
+  const { markers, setSelectedMarker } = useMarkersStore();
   const [showPopup, setShowPopup] = useState(false);
   function onClick(e: LeafletMouseEvent) {
     e.originalEvent.preventDefault();

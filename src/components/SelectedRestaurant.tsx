@@ -1,7 +1,7 @@
-import { useMarkers } from "../contexts/MarkersContext";
+import { useMarkersStore } from "../stores/markersStore";
 
 export function SelectedRestaurant() {
-  const { selectedMarker } = useMarkers();
+  const { selectedMarker } = useMarkersStore();
 
   return (
     <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[600px]">

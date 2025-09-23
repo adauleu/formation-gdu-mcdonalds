@@ -11,7 +11,7 @@ import {
   useFilter,
 } from "react-aria-components";
 import { searchByName, searchCities } from "../../services/nominatim";
-import { useMarkers } from "../../contexts/MarkersContext";
+import { useMarkersStore } from "../../stores/markersStore";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
 
@@ -22,7 +22,7 @@ export function AddressInput() {
   const [cityInput, setCityInput] = useState<string | null>(null);
 
   const debouncedCityInput = useDebounce(cityInput, 500);
-  const { setMarkers } = useMarkers();
+  const { setMarkers } = useMarkersStore();
 
   // Queries
   const { data } = useQuery({
