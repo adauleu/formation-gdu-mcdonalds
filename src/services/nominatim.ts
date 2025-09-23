@@ -36,9 +36,12 @@ interface NominatimResult {
   boundingbox: [string, string, string, string];
 }
 
-export async function getMcDonalds(city: string) {
+const NOMINATIM_URL = "https://nominatim.openstreetmap.org";
+const NOMINATIM_PARAMS = "&format=jsonv2&limit=10";
+
+export async function searchByName(cityName: string) {
   const results = await axios.get<NominatimResult[]>(
-    `https://nominatim.openstreetmap.org/search?addressdetails=1&q=mcDonald+${city}&format=jsonv2&limit=10`
+    `${NOMINATIM_URL}/search?addressdetails=1&q=mcDonald+${cityName}${NOMINATIM_PARAMS}`
   );
 
   return results.data;
@@ -46,14 +49,15 @@ export async function getMcDonalds(city: string) {
 
 export async function searchCities(city: string) {
   const results = await axios.get<NominatimResult[]>(
-    `https://nominatim.openstreetmap.org/search?city=${city}&format=jsonv2&limit=5`
+    `${NOMINATIM_URL}/search?city=${city}&featureType=city${NOMINATIM_PARAMS}`
   );
 
   return results.data
-    .filter((res) => res.addresstype === "city")
+    .filter((res) => res.addresstype === "city" || res.addresstype === "town")
     .map((res) => {
       return {
         key: res.place_id,
+        display_name: res.display_name,
         name: res.name,
       };
     });
