@@ -56,6 +56,7 @@ export async function searchCities(city: string) {
     .filter((res) => res.addresstype === "city" || res.addresstype === "town")
     .map((res) => {
       return {
+        id: res.place_id,
         key: res.place_id,
         display_name: res.display_name,
         name: res.name,
