@@ -1,8 +1,9 @@
 import "./App.css";
-import { AddressInput } from "./components/search/AddressInput";
+import { SearchForm } from "./components/search/SearchForm";
 import { Map } from "./components/map/Map";
 import { SelectedRestaurant } from "./components/SelectedRestaurant";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "sonner";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -14,11 +15,12 @@ function App() {
         <Map />
         <div className="absolute top-4 right-4">
           <div className="w-full max-w-[1024px]">
-            <AddressInput />
+            <SearchForm />
           </div>
         </div>
         <SelectedRestaurant />
       </div>
+      <Toaster richColors position="top-center" />
     </QueryClientProvider>
   );
 }

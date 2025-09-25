@@ -52,7 +52,7 @@ export function Markers() {
   useEffect(() => {
     const newBoundingBox = calculateBounds(markers);
     if (newBoundingBox) {
-      map.flyToBounds(newBoundingBox, { padding: [20, 20], maxZoom: 16 });
+      map.fitBounds(newBoundingBox, { padding: [20, 20], maxZoom: 16 });
     }
   }, [markers, map]);
 
