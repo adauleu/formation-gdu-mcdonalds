@@ -1,10 +1,8 @@
 import { Marker, Popup, useMap } from "react-leaflet";
-import {
-  useMarkersStore,
-  type NominatimResult,
-} from "../../stores/markersStore";
+import { useMarkersStore } from "../../stores/markersStore";
 import { useEffect, useState } from "react";
 import type { LatLngBoundsExpression, LeafletMouseEvent } from "leaflet";
+import type { NominatimResult } from "../../services/nominatim";
 
 function getShortAddress(m: NominatimResult) {
   const parts = [

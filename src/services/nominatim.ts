@@ -7,18 +7,15 @@ interface NominatimAddress {
   suburb?: string;
   city_district?: string;
   city?: string;
+  house_number?: string;
   municipality?: string;
   county?: string;
-  "ISO3166-2-lvl6"?: string;
   state?: string;
-  "ISO3166-2-lvl4"?: string;
-  region?: string;
   postcode?: string;
   country?: string;
-  country_code?: string;
 }
 
-interface NominatimResult {
+export interface NominatimResult {
   place_id: number;
   licence: string;
   osm_type: string;
