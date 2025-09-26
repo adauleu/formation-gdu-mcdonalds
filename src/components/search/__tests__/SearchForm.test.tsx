@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SearchForm } from "../SearchForm";
-import { vi } from "vitest";
+import { vi, type Mock } from "vitest";
 import { User } from "@react-aria/test-utils";
 
 // Mocks
@@ -43,7 +43,6 @@ describe("SearchForm", () => {
     expect(
       await screen.findByText(/Veuillez saisir une ville/i)
     ).toBeInTheDocument();
-    screen.debug();
     expect(searchByName).not.toHaveBeenCalled();
   });
 
@@ -57,8 +56,6 @@ describe("SearchForm", () => {
     const submitBtn = screen.getByTestId("submit-button");
     await user.click(submitBtn);
 
-    screen.debug();
-
     expect(
       await screen.findByText(/Veuillez sélectionner une suggestion/i)
     ).toBeInTheDocument();
@@ -70,11 +67,7 @@ describe("SearchForm", () => {
     const mockCities = [
       { id: 1, key: 1, display_name: "Paris, Ile de France", name: "Paris" },
     ];
-    (searchCities as jest.Mock).mockResolvedValue(mockCities);
-    const mockMarkers = [{ id: 1, name: "McDo Paris" }];
-    (searchByName as jest.Mock).mockResolvedValue(mockMarkers);
-
-    const { setMarkers } = useMarkersStore();
+    (searchCities as Mock).mockResolvedValue(mockCities);
 
     renderWithClient(<SearchForm />);
     const comboboxTester = testUtilUser.createTester("ComboBox", {
@@ -85,12 +78,9 @@ describe("SearchForm", () => {
     const input = screen.getByPlaceholderText(/Rennes, Clermont-Ferrand/i);
     await user.type(input, "Paris");
 
-    screen.debug();
-
     await comboboxTester.open();
     expect(comboboxTester.listbox).toBeInTheDocument();
     const options = comboboxTester.options();
-    console.log(options[0].innerHTML);
     await comboboxTester.selectOption({ option: options[0] });
 
     const submitBtn = screen.getByRole("button");

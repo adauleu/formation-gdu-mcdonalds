@@ -1,4 +1,4 @@
-import { useMarkersStore } from "../stores/markersStore";
+import { useMarkersStore } from "../../stores/markersStore";
 
 export function SelectedRestaurant() {
   const { selectedMarker } = useMarkersStore();
