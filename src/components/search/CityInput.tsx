@@ -2,6 +2,7 @@
 import type { ListBoxItemProps } from "react-aria-components";
 import {
   ComboBox,
+  FieldError,
   Input,
   Label,
   ListBox,
@@ -40,6 +41,7 @@ export function CityInput({
 
   return (
     <ComboBox
+      data-testid="city-combobox"
       allowsCustomValue
       inputValue={value}
       onInputChange={(val) => {
@@ -61,8 +63,13 @@ export function CityInput({
       <div>
         <Input
           placeholder="Rennes, Clermont-Ferrand, ..."
-          className={`w-full bg-white min-w-0 text-gray-800 placeholder-gray-500 outline-none focus:outline-none focus:ring-0 ${borderClass}`}
+          className={({ isInvalid }) =>
+            `w-full bg-white min-w-0 text-gray-800 placeholder-gray-500 outline-none focus:outline-none focus:ring-0 ${borderClass} ${
+              isInvalid ? "border-red-500" : "border-gray-400"
+            }`
+          }
         />
+        <FieldError className="text-red-600 text-xs mt-1" />
       </div>
 
       <Popover
