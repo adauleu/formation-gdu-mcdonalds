@@ -10,18 +10,11 @@ vi.mock("../../../services/nominatim", () => ({
   searchCities: vi.fn(),
 }));
 
-vi.mock("../../../stores/markersStore", () => ({
-  useMarkersStore: () => ({
-    setMarkers: vi.fn(),
-  }),
-}));
-
 vi.mock("@uidotdev/usehooks", () => ({
   useDebounce: (value: string) => value, // retourne direct la valeur
 }));
 
 import { searchByName, searchCities } from "../../../services/nominatim";
-import { useMarkersStore } from "../../../stores/markersStore";
 import { renderWithClient } from "../../../setupTests";
 
 const testUtilUser = new User({
