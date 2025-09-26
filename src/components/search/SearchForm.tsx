@@ -31,14 +31,22 @@ export function SearchForm() {
 
     // Cas 3: OK
     setIsLoading(true);
-    const mcDonalds = await searchByName(selectedCity);
-    setMarkers(mcDonalds);
-
-    // reset
-    setSelectedCity(undefined);
-    setInputValue("");
-    setIsLoading(false);
-    setError(null);
+    try {
+      const restaurantMarkers = await searchByName(selectedCity);
+      if (restaurantMarkers.length === 0) {
+        setError("Aucun restaurant trouvé");
+      } else {
+        setMarkers(restaurantMarkers);
+        // reset
+        setError(null);
+        setInputValue("");
+        setSelectedCity(undefined);
+      }
+    } catch {
+      setError("Une erreur est survenue");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
