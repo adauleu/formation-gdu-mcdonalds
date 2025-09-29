@@ -6,8 +6,8 @@ import { User } from "@react-aria/test-utils";
 
 // Mocks
 vi.mock("../../../services/nominatim", () => ({
-  searchByName: vi.fn(),
-  searchCities: vi.fn(),
+  searchByName: vi.fn().mockResolvedValue({}),
+  searchCities: vi.fn().mockResolvedValue([]),
 }));
 
 vi.mock("@uidotdev/usehooks", () => ({
