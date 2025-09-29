@@ -88,9 +88,9 @@ export function CityInput({
           }}
         >
           {(item) => (
-            <SelectItem key={item.key} textValue={item.display_name}>
+            <CitySuggestion key={item.key} textValue={item.display_name}>
               {item.display_name}
-            </SelectItem>
+            </CitySuggestion>
           )}
         </ListBox>
       </Popover>
@@ -98,7 +98,7 @@ export function CityInput({
   );
 }
 
-function SelectItem(props: ListBoxItemProps & { children: string }) {
+function CitySuggestion(props: ListBoxItemProps & { children: string }) {
   return (
     <ListBoxItem
       {...props}
