@@ -1,7 +1,7 @@
 import { Marker, Popup, useMap } from "react-leaflet";
 import { useMarkersStore } from "../../stores/markersStore";
-import { useEffect, useState } from "react";
-import type { LatLngBoundsExpression, LeafletMouseEvent } from "leaflet";
+import { useEffect } from "react";
+import type { LatLngBoundsExpression } from "leaflet";
 import type { NominatimResult } from "../../services/nominatim";
 
 function getShortAddress(m: NominatimResult) {
@@ -40,11 +40,6 @@ function calculateBounds(
 
 export function Markers() {
   const { markers, setSelectedMarker } = useMarkersStore();
-  const [showPopup, setShowPopup] = useState(false);
-  function onClick(e: LeafletMouseEvent) {
-    e.originalEvent.preventDefault();
-    setShowPopup(true);
-  }
   const map = useMap();
 
   useEffect(() => {
@@ -61,21 +56,18 @@ export function Markers() {
           <Marker
             key={m.osm_id}
             position={[Number(m.lat), Number(m.lon)]}
-            eventHandlers={{ click: onClick }}
           >
-            {showPopup && (
-              <Popup>
-                <p className="mb-2">{getShortAddress(m)}</p>
-                <button
-                  onClick={() => {
-                    setSelectedMarker(m);
-                  }}
-                  className="bg-yellow-400 hover:bg-yellow-600 font-semibold py-2 px-4 rounded-lg transition-colors"
-                >
-                  Choisir
-                </button>
-              </Popup>
-            )}
+            <Popup>
+              <p className="mb-2">{getShortAddress(m)}</p>
+              <button
+                onClick={() => {
+                  setSelectedMarker(m);
+                }}
+                className="bg-yellow-400 hover:bg-yellow-600 font-semibold py-2 px-4 rounded-lg transition-colors"
+              >
+                Choisir
+              </button>
+            </Popup>
           </Marker>
         );
       })}

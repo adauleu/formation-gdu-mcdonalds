@@ -60,8 +60,8 @@ export function SearchForm() {
         validationErrors={
           error
             ? {
-                city: error,
-              }
+              city: error,
+            }
             : undefined
         }
       >
