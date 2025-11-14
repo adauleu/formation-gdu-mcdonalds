@@ -12,8 +12,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="relative w-screen h-screen text-sm text-black">
         <Map />
-        <div className="absolute top-4 right-4">
-          <div className="w-full max-w-[1024px]">
+        <div className="absolute top-4 right-4 left-4 sm:left-auto">
+          <div className="w-full max-w-full sm:max-w-[1024px]">
             <SearchForm />
           </div>
         </div>

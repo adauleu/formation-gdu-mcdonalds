@@ -49,7 +49,7 @@ export function SearchForm() {
   }
 
   return (
-    <div className="flex backdrop-blur-sm px-4 py-2 rounded-xl shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-100">
+    <div className="flex backdrop-blur-sm px-4 py-2 rounded-xl shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-full sm:w-100">
       <Form
         onSubmit={(e) => {
           e.preventDefault();
