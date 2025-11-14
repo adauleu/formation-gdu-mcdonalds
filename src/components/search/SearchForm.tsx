@@ -1,8 +1,7 @@
-// SearchForm.tsx
 import { SearchIcon, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { Button, Form } from "react-aria-components";
-import { searchByName } from "../../services/nominatim";
+import { searchByCityName } from "../../services/nominatim";
 import { useMarkersStore } from "../../stores/markersStore";
 import { CityInput } from "./CityInput";
 
@@ -32,7 +31,7 @@ export function SearchForm() {
     // Cas 3: OK
     setIsLoading(true);
     try {
-      const restaurantMarkers = await searchByName(selectedCity);
+      const restaurantMarkers = await searchByCityName(selectedCity);
       if (restaurantMarkers.length === 0) {
         setError("Aucun restaurant trouvé");
       } else {

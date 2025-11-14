@@ -36,7 +36,7 @@ export interface NominatimResult {
 const NOMINATIM_URL = "https://nominatim.openstreetmap.org";
 const NOMINATIM_PARAMS = "&format=jsonv2&limit=30";
 
-export async function searchByName(cityName: string) {
+export async function searchByCityName(cityName: string) {
   const results = await axios.get<NominatimResult[]>(
     `${NOMINATIM_URL}/search?addressdetails=1&q=mcDonald+${cityName}${NOMINATIM_PARAMS}`
   );

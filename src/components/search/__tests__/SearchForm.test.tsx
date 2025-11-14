@@ -3,19 +3,18 @@ import userEvent from "@testing-library/user-event";
 import { SearchForm } from "../SearchForm";
 import { vi, type Mock } from "vitest";
 import { User } from "@react-aria/test-utils";
+import { searchByCityName, searchCities } from "../../../services/nominatim";
+import { renderWithClient } from "../../../setupTests";
 
 // Mocks
 vi.mock("../../../services/nominatim", () => ({
-  searchByName: vi.fn().mockResolvedValue({}),
+  searchByCityName: vi.fn().mockResolvedValue({}),
   searchCities: vi.fn().mockResolvedValue([]),
 }));
 
 vi.mock("@uidotdev/usehooks", () => ({
   useDebounce: (value: string) => value, // retourne direct la valeur
 }));
-
-import { searchByName, searchCities } from "../../../services/nominatim";
-import { renderWithClient } from "../../../setupTests";
 
 const testUtilUser = new User({
   interactionType: "mouse",
@@ -36,7 +35,7 @@ describe("SearchForm", () => {
     expect(
       await screen.findByText(/Veuillez saisir une ville/i)
     ).toBeInTheDocument();
-    expect(searchByName).not.toHaveBeenCalled();
+    expect(searchByCityName).not.toHaveBeenCalled();
   });
 
   it("affiche une erreur si on tape du texte mais sans sélection", async () => {
@@ -52,7 +51,7 @@ describe("SearchForm", () => {
     expect(
       await screen.findByText(/Veuillez sélectionner une suggestion/i)
     ).toBeInTheDocument();
-    expect(searchByName).not.toHaveBeenCalled();
+    expect(searchByCityName).not.toHaveBeenCalled();
   });
 
   it("soumet correctement après sélection d'une ville", async () => {
@@ -79,7 +78,7 @@ describe("SearchForm", () => {
     const submitBtn = screen.getByRole("button");
     await user.click(submitBtn);
 
-    expect(searchByName).toHaveBeenCalledWith("Paris, Ile de France");
+    expect(searchByCityName).toHaveBeenCalledWith("Paris, Ile de France");
 
     // Après succès, le champ doit être reset
     expect(input).toHaveValue("");

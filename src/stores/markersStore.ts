@@ -6,7 +6,6 @@ interface MarkersStore {
   selectedMarker: NominatimResult | null;
   setMarkers: (markers: NominatimResult[]) => void;
   setSelectedMarker: (marker: NominatimResult | null) => void;
-  clearMarkers: () => void;
 }
 
 export const useMarkersStore = create<MarkersStore>((set) => ({
@@ -16,10 +15,4 @@ export const useMarkersStore = create<MarkersStore>((set) => ({
   setMarkers: (markers) => set({ markers }),
 
   setSelectedMarker: (selectedMarker) => set({ selectedMarker }),
-
-  clearMarkers: () =>
-    set({
-      markers: [],
-      selectedMarker: null,
-    }),
 }));

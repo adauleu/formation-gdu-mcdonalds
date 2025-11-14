@@ -1,13 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import { vi, describe, it, expect, afterEach, type Mock } from "vitest";
 import { SelectedRestaurant } from "../SelectedRestaurant";
+import { useMarkersStore } from "../../../stores/markersStore";
 
 // On mocke le store pour pouvoir contrôler selectedMarker
 vi.mock("../../../stores/markersStore", () => ({
   useMarkersStore: vi.fn(),
 }));
-
-import { useMarkersStore } from "../../../stores/markersStore";
 
 describe("SelectedRestaurant", () => {
   afterEach(() => {
